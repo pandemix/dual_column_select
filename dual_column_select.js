@@ -3,6 +3,10 @@
 // DualColumnSelect v0.5
 // written by Caleb Cullen, September 2007 - Wed, 14 Jan 2009 11:42:20 -0500
 //
+// This work is licensed under the Creative Commons Attribution-Share Alike 2.5 Canada License.
+// To view a copy of this license, visit http://creativecommons.org/licenses/by-sa/2.5/ca/ or
+// send a letter to Creative Commons, 171 Second Street, Suite 300, San Francisco, California, 94105, USA.
+//
 // Creates a multi-select input element consisting of two multi-select boxes and six buttons.
 // AJAX search field and related inputs may optionally be included
 // The layout is based on the canonical Windows select element: push and pull items from the

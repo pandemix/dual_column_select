@@ -1,0 +1,63 @@
+DualColumnSelect v0.5
+written by Caleb Cullen, September 2007 - Wed, 14 Jan 2009 11:42:20 -0500
+
+This work is licensed under the Creative Commons Attribution-Share Alike 2.5 Canada License.
+To view a copy of this license, visit http://creativecommons.org/licenses/by-sa/2.5/ca/ or
+send a letter to Creative Commons, 171 Second Street, Suite 300, San Francisco, California, 94105, USA.
+
+This module requires Prototype
+
+Creates a multi-select input element consisting of two multi-select boxes and six buttons.
+
+AJAX search field and related inputs may optionally be included
+
+A text field for creating a new selection entry can also optionally be included; the logic behind
+this is simple and requires the receiving controller routine to be capable of creating a
+new selection-entity if the choices submitted require it.
+
+The layout is based on the canonical Windows select element: push and pull items from the
+left-hand list of choices to the right-hand list of selected items; allow for submission,
+resetting, cancellation, clearing the selection list, and of course moving one or more
+elements to the left (deselect) or to the right (select).
+
+In order to make adding this element to any random page as simple as possible, this widget
+attempts to retrieve its starting value (what is selected) from another element on the page,
+typically the element whose click-trigger caused it to appear. The idea is that this 
+element may pop up in response to an IPE-type click event in a table.  It would be trivial
+to wire this up to a hidden field or some other such in order to use it in a more static
+form type context.  (A visible text-field could trigger the appearance of the DCS on focus,
+for instance.)
+
+A whole lot of options are provided, in order to customize the behavior and appearance of
+the widget; more will be provided as the widget develops and comes to the point of being
+able to insert all of its own elements into the flow rather than being loaded in from
+the server.
+
+See the sourcefile for more documentation about specifics of using the widget.
+
+TO DO:
++ factor existing logic out into rougly four subclasses of the primary DCS widget:
+  + an AJAX-search DCS widget: provides a field for the search term, and an optional select
+    for specifying the entity of interest w/i the search tool: for instance, in the original
+    application, we were setting geotargeting data, which comes in several flavors.  Our one
+    DCS-with-search allows the setting of 7 (or more) different kinds of targets without any
+    pageloads
+  + a selection-creation widget: if the selections are simply tags without any particular
+    additional logic behind them, then it may be reasonable to allow the user to define new
+    ones as needed.  If this is the case, configuration options for the text field and its
+    label may be passed to the widget.  The logic behind its operation is simple: when text
+    is entered into the field and the <ENTER> key is pressed, the submit-observer makes an
+    entry in the 'choices' select with text and value equal to the entry in the textfield.
+    If for some reason a translation is required between the value in the textfield and one
+    or both of the option's text or value, callbacks may be provided in the DCS's options at
+    initialization time.
+  + a DCS widget customized for dealing with days-of-the-week: this special case is really for
+    convenience.  It is necessary to translate both ways between the select-field text and value
+    and the values used to build the updated data in the main display (the invoking element).
+    The choices must be sorted in day-order, which isn't alphabetical, and the main display ought
+    to be brief (the three-letter abbreviations are used), but in the select we'd like to see
+    them completely spelled out.
+  + a DCS widget customized for dealing with hours-of-the-day: this is another convenience
+    subclass.  In this case, the parser needs to be able to handle ranges of hours, and it needs
+    to sort by value while using the text (or a translation) to build the updated data for the
+    invoking element after submission.
