@@ -426,7 +426,7 @@ DualColumnSelect.prototype.remove_option = DualColumnSelect.prototype.remove_opt
 DualColumnSelect.parse_hours = function(html) {
     if (!html || html.length == 0) return [];
     var hours = [];
-    html.split(";").invoke("strip").without("none", "<i>none</i>", "<I>none</I>", "always", "<i>always</i>", "<I>always</I>").each(function(x) {
+    html.gsub(/&nbsp;/," ").split(";").invoke("strip").without("none", "<i>none</i>", "<I>none</I>", "always", "<i>always</i>", "<I>always</I>").each(function(x) {
 	if (x.include("-")) {
 	    var ep = x.split("-");
 	    var m = ep[0];
@@ -444,7 +444,7 @@ DualColumnSelect.parse_hours = function(html) {
 };
 
 DualColumnSelect.parse_weekdays = function(html) {
-    return html.split(";").map(function(x){
+    return html.gsub(/&nbsp;/," ").split(";").map(function(x){
 	x = x.strip();
 	var d = netprophets.abbrev_to_day.get(x);
 	var n = netprophets.wdabbr_to_number.get(x);
@@ -464,7 +464,7 @@ DualColumnSelect.init_timeout_for_autosearch = function() {
 
 // Some default methods for use in setting up new objects
 DualColumnSelect.prototype.initialize.option_sortBy_function = function(o) {return o.value;};
-DualColumnSelect.prototype.initialize.parse_selection = function(html) {return html.split(";").invoke("strip").without("none", "<i>none</i>", "<I>none</I>").map(function(x){return [x,x];});};
+DualColumnSelect.prototype.initialize.parse_selection = function(html) {return html.gsub(/&nbsp;/," ").split(";").invoke("strip").without("none", "<i>none</i>", "<I>none</I>").map(function(x){return [x,x];});};
 DualColumnSelect.prototype.initialize.format_selection = function(o) { return o.text; };
 // The following two default functions must be bound to their object before they will work; the initializer sets this up properly
 DualColumnSelect.prototype.initialize.init_timeout = function() { this.populate(); };
