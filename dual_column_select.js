@@ -97,6 +97,7 @@ var DualColumnSelect = Class.create({
 	this.data_target = $(opener ? opener.document.getElementById(this.data_target) : this.data_target);
 	this.form = $(opts.form_name || "dcs_form");
 	// LAYOUT RELATED STUFF
+	this.override_form = (typeof(opts.override_form) == "undefined") ? true : opts.override_form;
 	this.choices_title = opts.choices_title || "Available Choices";
 	this.selections_title = opts.selections_title || "Selected Items";
 	this.title = opts.title || "Select!";
@@ -112,7 +113,7 @@ var DualColumnSelect = Class.create({
 	this.choices_contents = opts.choices_contents;
 	this.choices_source = opts.choices_source;
 	// DCS FORM ELEMENT INSTANTIATION
-	if (!this.form) {
+	if (this.override_form || (!this.form)) {
 	    this.insert_dcs_form(opts);
 	    this.form = $(opts.form_name || "dcs_form");
 	}
@@ -173,7 +174,7 @@ var DualColumnSelect = Class.create({
 		       reset:    opts.reset_button || "dcs_b_rst",
 		       cancel:   opts.cancel_button || "dcs_b_ccl",
 		       submit:   opts.submit_button || "dcs_b_sub"};
-	var dcs_editor_html = "<div class='dcs_main' style='width: "+this.width+"px;'>\n<h3>"+this.title+":</h3>"
+	var dcs_editor_html = "<div class='dcs_main' style='width: "+this.width+"px;'>\n<h3>"+this.title+"</h3>"
 	if (opts.allow_creation) {
 	    var csf = opts.create_selection_field || "new_sel";
 	    var csfn = opts.create_selection_field_name || csf;
@@ -201,6 +202,7 @@ var DualColumnSelect = Class.create({
 	    "<select id='"+(opts.selections || 'selections')+"' name='selections[]' multiple length='15' "+sel_style+"><!-- name has [] because a list is returned; Rails expects this --></select></div>"+
 	    "<div class='dcs_footer'><input type='button' value='Reset' "+row_button_style+" id='"+bnames.reset+"' /><input type='button' value='Cancel' "+row_button_style+" id='"+bnames.cancel+"' />"+
 	    "<input type='button' value='Submit' "+row_button_style+" id='"+bnames.submit+"' /></div></form></div>";
+	div.update("");
 	div.update(dcs_editor_html);
 	if (opts.allow_creation) {
 	    this.selection_creator = (opts.selection_creator || this.create_selection).bindAsEventListener(this);
@@ -344,9 +346,9 @@ var DualColumnSelect = Class.create({
 	if (opener) {
 	    window.close();
 	} else {
-	    this.editor.hide();
+	    this.editor.update("");
 	}
-	return this;
+//	return null;  // null is returned by default
     },
     // SEARCH RELATED FUNCTIONS
     search_and_update: function(qstr, msg_area, sel) {
